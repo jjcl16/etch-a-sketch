@@ -13,6 +13,9 @@ crear division entre las filas y se crean "columnas"
 */
 
 const grid = document.querySelector(".grid");
+const colorSelector = document.querySelector(".setedColor");
+
+
 
 
 function makeGrid(size){
@@ -22,7 +25,6 @@ function makeGrid(size){
         const rows = document.createElement("div");
         rows.classList.add("row");
         rows.classList.add("noselect");
-        rows.textContent = `R${i}`
         grid.appendChild(rows);
 
         
@@ -31,42 +33,103 @@ function makeGrid(size){
             const columns = document.createElement("div"); 
             columns.classList.add("columns");
             columns.classList.add("noselect");
-            columns.textContent = `C${j}`
             rows.appendChild(columns);
-            columns.addEventListener('mousedown', colorColumn);
-            columns.addEventListener('mouseenter', isClicked);
+            columns.addEventListener('mousedown', colorColumn); //if is clicked
+            columns.addEventListener('mouseenter', isClicked); // if is moved into boxes
             
         }
     }
 }
 
-function removeGrid(){
-    //grid.childNodes.forEach(removeNodes);    
+
+
+
+/*------------------------- colored ---*/
+
+function colorColumn(){//if is clicked
+    if(!eraserEnable){
+        //console.log(colorSelector.value);
+        this.style.cssText = `background-color: ${colorSelector.value};`; 
+    }else{
+        this.style.cssText = `background-color: #FFFFFF;`;
+    }
+    
+}
+
+function isClicked(e){ // if is moved into boxes
+    if(e.buttons==1){ // only if is clicked
+
+        if(!eraserEnable){
+            this.style.cssText = `background-color: ${colorSelector.value};`;  
+        }else{
+            this.style.cssText = `background-color: #FFFFFF;`;
+        }
+        
+
+    };
+}
+
+/*------------------ Insert new grid ---------------------*/
+function getGridSize(){
+    let size = prompt("Size of the grid");
+    size = Number(size);
+    if(Number.isNaN(size)){ // check if is a number 
+        alert("Only numerics values");
+
+    } else if(size){
+        size = (size>64) ? 64 : size;
+        removeGrid(); //remove old
+        makeGrid(size); //create new
+    }    
+}
+
+function removeGrid(){    /// remove grid 
 
     while (grid.firstChild) {
         grid.removeChild(grid.firstChild);
       }
 }
-/*
-function removeNodes(e){
-    console.log(e);
-    grid.removeChild(e);
-}
-*/
 
-function getGridSize(){
-    let size = prompt("Size of the grid");
-    removeGrid();
-    makeGrid(size);
+
+
+
+/*------------- ERASE GRID -----------------*/
+function eraseGrid(){
+    const rows = document.querySelectorAll(".columns");
+
+    rows.forEach(clearGrid);
 }
 
-function colorColumn(){
-    this.classList.add("coloredRed");
+function clearGrid(e){
+    e.style.cssText = `background-color: $ffffff;`;  
 }
 
-function isClicked(e){
-    if(e.buttons==1){
-        this.classList.add("coloredRed");   
+/*------------------- Eraser -----------------------*/
+let eraserEnable = false;
 
-    };
+function selectEraser(){
+    const eraser = document.querySelector(".selectEraser");
+    eraserEnable = (!eraserEnable) ? true : false ;
+    eraser.style.cssText = (eraserEnable) ?   `background-color: #79867d;` :   `background-color: buttonface;`;
+
+}
+
+
+let gridActive = false;
+function gridEnabler(){
+    const gridEnabler = document.querySelector(".gridEnabler");
+    const columns = document.querySelectorAll(".columns");
+    gridActive = (!gridActive) ? true : false ;
+    gridEnabler.style.cssText = (gridActive) ?   `background-color: #79867d;` :   `background-color: buttonface;`;
+    
+    (gridActive) ?  columns.forEach(gridOn) : columns.forEach(gridOff);
+    
+}
+
+function gridOn(e){
+    e.classList.add('borders'); 
+}
+
+function gridOff(e){
+    e.classList.remove('borders');; 
 }

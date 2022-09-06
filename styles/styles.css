@@ -1,21 +1,66 @@
+body{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+}
+
+.options{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border: 3px solid black;
+        
+    flex-direction: column;
+}
+
+.setedColor{
+    height: 60px;
+    width: 60px;
+    border: 2px solid grey;
+    border-radius: 10px;
+    box-shadow: 2px solid lightgrey;
+}
+
+button{
+    height: 60px;
+    width: 80px;
+    border: 2px solid grey;
+    border-radius: 10px;
+    box-shadow: 2px solid lightgrey;
+    margin: 10px
+}
+
+.grid{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid black;
+    height: 500px;
+    width: 500px;
+}
+
 .row{
     display: flex;
+    flex:1;
     
 }
 
 .columns{
+    /*border: 1px solid black;*/
+    flex:1;
+    /*height: 30px;
+    width: 30px;*/
+}
+
+.borders{
     border: 1px solid black;
-    height: 30px;
-    width: 30px;
 }
 
-.coloredRed{
-    background-color: red;
-}
 
-.coloredBlue{
-    background-color: blue;
-}
+
+
+
+
 
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
@@ -26,3 +71,4 @@
               user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome, Edge, Opera and Firefox */
   }
+
