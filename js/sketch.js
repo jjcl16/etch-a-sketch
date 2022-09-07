@@ -18,6 +18,7 @@ const colorSelector = document.querySelector(".setedColor");
 
 
 
+
 function makeGrid(size){
 
     //console.log(children);
@@ -36,22 +37,53 @@ function makeGrid(size){
             rows.appendChild(columns);
             columns.addEventListener('mousedown', colorColumn); //if is clicked
             columns.addEventListener('mouseenter', isClicked); // if is moved into boxes
+            if (gridActive) columns.classList.add("borders"); //adds only if the button is activated
+            columns.style.backgroundColor = '#FFFFFF';
             
         }
     }
+
+     
 }
 
 
+/*-----------  return -10% color bright function --------- */
+function reduceLight( rgbString){
+    let rgb = rgbString.substring(4, rgbString.length-1)
+            .replace(/ /g, '')
+            .split(',');
+    
+    let newRgb = [];
+
+    for (color of rgb){
+        color = (color*10 - color)/10;
+        //console.log(color);
+        newRgb.push(color);
+
+    }
+
+    newRgb = `rgb(${newRgb[0]}, ${newRgb[1]}, ${newRgb[2]})`
+
+    return newRgb;
+
+}
 
 
 /*------------------------- colored ---*/
 
 function colorColumn(){//if is clicked
-    if(!eraserEnable){
+    //console.log(shadowActive);
+    if(eraserEnable){
         //console.log(colorSelector.value);
-        this.style.cssText = `background-color: ${colorSelector.value};`; 
-    }else{
         this.style.cssText = `background-color: #FFFFFF;`;
+        
+    }else if(shadowActive && !eraserEnable){
+        //console.log(this.style.backgroundColor);
+
+        this.style.backgroundColor = reduceLight(this.style.backgroundColor);
+
+    }else{
+        this.style.cssText = `background-color: ${colorSelector.value};`; 
     }
     
 }
@@ -59,10 +91,15 @@ function colorColumn(){//if is clicked
 function isClicked(e){ // if is moved into boxes
     if(e.buttons==1){ // only if is clicked
 
-        if(!eraserEnable){
-            this.style.cssText = `background-color: ${colorSelector.value};`;  
-        }else{
+        if(eraserEnable){
+            //console.log(colorSelector.value);
             this.style.cssText = `background-color: #FFFFFF;`;
+            
+        }else if(shadowActive && !eraserEnable){
+            this.style.backgroundColor = reduceLight(this.style.backgroundColor);
+    
+        }else{
+            this.style.cssText = `background-color: ${colorSelector.value};`; 
         }
         
 
@@ -101,7 +138,7 @@ function eraseGrid(){
 }
 
 function clearGrid(e){
-    e.style.cssText = `background-color: $ffffff;`;  
+    e.style.cssText = `background-color: #ffffff;`;  
 }
 
 /*------------------- Eraser -----------------------*/
@@ -114,6 +151,8 @@ function selectEraser(){
 
 }
 
+
+/*----------------- Enable grid -------------*/
 
 let gridActive = false;
 function gridEnabler(){
@@ -133,3 +172,26 @@ function gridOn(e){
 function gridOff(e){
     e.classList.remove('borders');; 
 }
+
+
+/*-------------------------- Shadow Effect ------------------------*/ 
+
+let shadowActive = false;
+function setShadow(){
+    const selectShadow = document.querySelector(".selectShadow");
+    shadowActive = (!shadowActive) ? true : false;
+    selectShadow.style.cssText = (shadowActive) ?   `background-color: #79867d;` :   `background-color: buttonface;`;
+}
+
+/*-----------------Rainbbow Effect --------------------------**/
+
+let rainbowActive = false;
+function setRainbow()
+    const selectRainbow = document.querySelector(".selectRainbow");
+    rainbowActive = (!rainbowActive)
+
+
+
+
+/*------------------------ INICIAL GRID --------------------------------------- */
+makeGrid(12); //initialization grid 12x12

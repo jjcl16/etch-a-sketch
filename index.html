@@ -9,18 +9,29 @@
     <title>Etch a Sketch</title>
 </head>
 <body>
-    <div class="options">
-        <button class="setSquares" onclick="getGridSize()">Set board</button>
-        <input type="color" class="setedColor" value="#ff0000">
-        <button class="selectShadow" onclick="setShadow()">Shadow efect</button>
-        <button class="selectEraser" onclick="selectEraser()">Eraser</button>
-        <button class="eraseGrid" onclick="eraseGrid()">Erase board</button>
-        <button class="gridEnabler" onclick="gridEnabler()">Grid Enable</button>
-
-
+    <div class="header">
+        <div class="title">ETCH-A-SKETCH</div>
     </div>
-    <div class="grid">
-        
+    <div class="body">
+        <div class="options">
+            <button class="setSquares" onclick="getGridSize()">Set board</button>
+            <button class="eraseGrid" onclick="eraseGrid()">Erase board</button>
+        </div>
+        <div class="grid">
+            
+        </div>
+        <div class="options">
+            <input type="color" class="setedColor" value="#ff0000">
+            <button class="selectShadow" onclick="setShadow()">Shadow efect</button>
+            <button class="selectRainbow" onclick="setRainbow()">Rainbow efect</button>
+            <button class="selectEraser" onclick="selectEraser()">Eraser</button>
+            <button class="gridEnabler" onclick="gridEnabler()">Grid Enable</button>
+
+
+        </div>
+    </div>
+    <div class="footer">
+
     </div>
     
 </body>

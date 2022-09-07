@@ -1,8 +1,21 @@
 body{
     display: flex;
+    flex-direction: column;
     justify-content: space-around;
     align-items: center;
     padding: 10px;
+}
+
+.title{
+    
+}
+
+.body{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    width: 100vw;
 }
 
 .options{
@@ -22,7 +35,7 @@ body{
     box-shadow: 2px solid lightgrey;
 }
 
-button{
+button, input{
     height: 60px;
     width: 80px;
     border: 2px solid grey;
@@ -33,6 +46,7 @@ button{
 
 .grid{
     display: flex;
+    flex: 0 0 500px;
     flex-direction: column;
     border: 3px solid black;
     height: 500px;
