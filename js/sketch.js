@@ -35,8 +35,8 @@ function makeGrid(size){
             columns.classList.add("columns");
             columns.classList.add("noselect");
             rows.appendChild(columns);
-            columns.addEventListener('mousedown', colorColumn); //if is clicked
-            columns.addEventListener('mouseenter', isClicked); // if is moved into boxes
+            columns.addEventListener('mousedown', isClicking); //if is clicked
+            columns.addEventListener('mouseenter', isDrawing); // if is moved into boxes
             if (gridActive) columns.classList.add("borders"); //adds only if the button is activated
             columns.style.backgroundColor = '#FFFFFF';
             
@@ -47,63 +47,43 @@ function makeGrid(size){
 }
 
 
-/*-----------  return -10% color bright function --------- */
-function reduceLight( rgbString){
-    let rgb = rgbString.substring(4, rgbString.length-1)
-            .replace(/ /g, '')
-            .split(',');
+
+
+
+/*------------------------- Events click and mouse enter---*/
+
+function isClicking(){//if is clicked
+    //console.log(shadowActive);
+    colorBox(this);
     
-    let newRgb = [];
-
-    for (color of rgb){
-        color = (color*10 - color)/10;
-        //console.log(color);
-        newRgb.push(color);
-
-    }
-
-    newRgb = `rgb(${newRgb[0]}, ${newRgb[1]}, ${newRgb[2]})`
-
-    return newRgb;
-
 }
 
+function isDrawing(e){ // if is moved into boxes
+    if(e.buttons==1){ // only if is clicked
+        colorBox(this);
+    };
+}
 
-/*------------------------- colored ---*/
+/*-------------------- function Color - erase --------------------------------- */
 
-function colorColumn(){//if is clicked
-    //console.log(shadowActive);
+
+function colorBox(element){
     if(eraserEnable){
         //console.log(colorSelector.value);
-        this.style.cssText = `background-color: #FFFFFF;`;
+        element.style.cssText = `background-color: #FFFFFF;`;
         
-    }else if(shadowActive && !eraserEnable){
+    }else if(shadowActive){
         //console.log(this.style.backgroundColor);
 
-        this.style.backgroundColor = reduceLight(this.style.backgroundColor);
+        element.style.backgroundColor = reduceLight(element.style.backgroundColor);
 
-    }else{
-        this.style.cssText = `background-color: ${colorSelector.value};`; 
+    }else if(rainbowActive){
+        element.style.backgroundColor = makeRainbow();
     }
     
-}
-
-function isClicked(e){ // if is moved into boxes
-    if(e.buttons==1){ // only if is clicked
-
-        if(eraserEnable){
-            //console.log(colorSelector.value);
-            this.style.cssText = `background-color: #FFFFFF;`;
-            
-        }else if(shadowActive && !eraserEnable){
-            this.style.backgroundColor = reduceLight(this.style.backgroundColor);
-    
-        }else{
-            this.style.cssText = `background-color: ${colorSelector.value};`; 
-        }
-        
-
-    };
+    else{
+        element.style.cssText = `background-color: ${colorSelector.value};`; 
+    }
 }
 
 /*------------------ Insert new grid ---------------------*/
@@ -183,12 +163,50 @@ function setShadow(){
     selectShadow.style.cssText = (shadowActive) ?   `background-color: #79867d;` :   `background-color: buttonface;`;
 }
 
+/*-----------  return -10% color bright function --------- */
+function reduceLight( rgbString){
+    let rgb = rgbString.substring(4, rgbString.length-1)
+            .replace(/ /g, '')
+            .split(',');
+    
+    let newRgb = [];
+
+    for (color of rgb){
+        color = (color*10 - color)/10;
+        //console.log(color);
+        newRgb.push(color);
+
+    }
+
+    newRgb = `rgb(${newRgb[0]}, ${newRgb[1]}, ${newRgb[2]})`
+
+    return newRgb;
+
+}
+
+
 /*-----------------Rainbbow Effect --------------------------**/
 
 let rainbowActive = false;
-function setRainbow()
+function setRainbow(){
     const selectRainbow = document.querySelector(".selectRainbow");
-    rainbowActive = (!rainbowActive)
+    rainbowActive = (!rainbowActive) ? true : false;
+    selectRainbow.style.cssText = (rainbowActive) ?   `background-color: #79867d;` :   `background-color: buttonface;`;
+}
+    
+/*--------- Making rainbow---------*/
+function makeRainbow(){
+    let red = Math.floor(Math.random() * 256);
+    let green = Math.floor(Math.random() * 256);
+    let blue = Math.floor(Math.random() * 256);
+    let rgbString = `rgb(${red}, ${green}, ${blue})`
+    return rgbString;
+}
+
+
+
+
+
 
 
 
